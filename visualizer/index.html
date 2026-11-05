@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ecosistema Zorros y Conejos</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <h1>Ecosistema: zorros, conejos y rocas</h1>
+  <div class="transport" role="toolbar" aria-label="Controles de tiempo">
+    <button id="btnPlay" class="primary" title="Reproducir / pausar (Espacio)">▶ Reproducir</button>
+    <button id="btnStep" title="Avanzar una generación (→)">Paso ⏭</button>
+    <button id="btnReset" title="Volver al estado inicial (R)">⟲ Reiniciar</button>
+    <span class="sep"></span>
+    <button id="btnSlower" title="Más lento (−)">− Lento</button>
+    <input id="speed" type="range" min="0" max="10" value="5" aria-label="Velocidad">
+    <button id="btnFaster" title="Más rápido (+)">Rápido +</button>
+    <output id="speedLabel" class="muted">10 gen/s</output>
+  </div>
+</header>
+
+<main class="layout">
+  <!-- ===================== Panel de parámetros ===================== -->
+  <aside class="panel">
+    <section>
+      <h2>Mundo inicial</h2>
+      <div class="grid2">
+        <label>Filas (R)<input id="pR" type="number" min="1" max="1000" value="120"></label>
+        <label>Columnas (C)<input id="pC" type="number" min="1" max="1000" value="160"></label>
+        <label>% Rocas<input id="pRock" type="number" min="0" max="100" step="0.5" value="5"></label>
+        <label>% Conejos<input id="pRab" type="number" min="0" max="100" step="0.5" value="30"></label>
+        <label>% Zorros<input id="pFox" type="number" min="0" max="100" step="0.5" value="5"></label>
+        <label>Semilla<input id="pSeed" type="number" min="1" value="7"></label>
+      </div>
+      <button id="btnGenerate" class="wide primary">Generar mundo nuevo</button>
+    </section>
+
+    <section>
+      <h2>Tasas de reproducción</h2>
+      <div class="grid2">
+        <label title="Generaciones hasta que un conejo puede procrear">GEN_PROC_RABBITS<input id="pGPR" type="number" min="0" value="5"></label>
+        <label title="Generaciones hasta que un zorro puede procrear">GEN_PROC_FOXES<input id="pGPF" type="number" min="0" value="12"></label>
+        <label title="Generaciones sin comer hasta que un zorro muere">GEN_FOOD_FOXES<input id="pGFF" type="number" min="1" value="12"></label>
+        <label title="0 = sin límite">N_GEN (límite)<input id="pNG" type="number" min="0" value="0"></label>
+      </div>
+      <button id="btnApply" class="wide">Aplicar tasas sin reiniciar</button>
+    </section>
+
+    <section>
+      <h2>Archivos</h2>
+      <label class="file wide">Cargar entrada (.in / .txt)<input id="fileIn" type="file" accept=".in,.txt,.out"></label>
+      <button id="btnExample" class="wide">Ejemplo del enunciado</button>
+      <div class="grid2">
+        <button id="btnSaveState">Descargar estado</button>
+        <button id="btnSaveCsv">Descargar CSV</button>
+      </div>
+      <p id="msg" class="muted small" role="status"></p>
+    </section>
+
+    <section class="small muted">
+      <h2>Atajos</h2>
+      <p><kbd>Espacio</kbd> reproducir/pausar · <kbd>→</kbd> paso · <kbd>+</kbd>/<kbd>−</kbd> velocidad · <kbd>R</kbd> reiniciar</p>
+    </section>
+  </aside>
+
+  <!-- ===================== Mundo ===================== -->
+  <section class="world card">
+    <div class="legend" aria-hidden="true">
+      <span><i class="sw rabbit"></i>Conejo</span>
+      <span><i class="sw fox"></i>Zorro</span>
+      <span><i class="sw rock"></i>Roca</span>
+      <span><i class="sw empty"></i>Vacío</span>
+    </div>
+    <div id="worldWrap" class="world-wrap">
+      <canvas id="world" aria-label="Matriz del ecosistema"></canvas>
+      <div id="cellTip" class="tip" hidden></div>
+    </div>
+  </section>
+
+  <!-- ===================== Estadísticas ===================== -->
+  <section class="stats card">
+    <div class="tiles">
+      <div class="tile"><span class="label">Generación</span><span id="tGen" class="value">0</span></div>
+      <div class="tile"><span class="label"><i class="sw rabbit"></i>Conejos</span><span id="tRab" class="value">0</span></div>
+      <div class="tile"><span class="label"><i class="sw fox"></i>Zorros</span><span id="tFox" class="value">0</span></div>
+      <div class="tile"><span class="label"><i class="sw rock"></i>Rocas</span><span id="tRock" class="value">0</span></div>
+    </div>
+    <h2>Población por generación</h2>
+    <div class="chart-legend">
+      <span><i class="line rabbit"></i>Conejos</span>
+      <span><i class="line fox"></i>Zorros</span>
+    </div>
+    <div id="chartWrap" class="chart-wrap">
+      <canvas id="chart" aria-label="Gráfica de población de conejos y zorros por generación"></canvas>
+      <div id="chartTip" class="tip" hidden></div>
+    </div>
+    <details>
+      <summary>Ver tabla (últimas 20 generaciones)</summary>
+      <table>
+        <thead><tr><th>Gen</th><th>Conejos</th><th>Zorros</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </details>
+  </section>
+</main>
+
+<script src="ecosystem.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
