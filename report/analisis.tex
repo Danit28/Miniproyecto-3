@@ -1,0 +1,44 @@
+% Analisis de los resultados de rendimiento (se incluye desde main.tex).
+% Si se vuelve a ejecutar el benchmark, revise que las cifras citadas aqui
+% sigan correspondiendo con las tablas.
+
+\paragraph{Sobrecosto de la paralelización.} Con un hilo, las versiones OpenMP y Pthreads tardan
+prácticamente lo mismo que la secuencial: las diferencias son menores al 5\,\% y están dentro del ruido de
+medición. Esto confirma que crear una única región paralela y llamar a los kernels por filas no añade un
+costo apreciable.
+
+\paragraph{Escalabilidad.} Para pocos hilos la aceleración es buena: con 2 hilos se obtiene un speedup de
+1.6--1.9 y con 4 hilos de 2.6--3.4. El mejor resultado se alcanza alrededor de \textbf{8 hilos}, con un
+speedup de aproximadamente \textbf{4.7} en el mundo de $1000\times1000$, 4.2 en el de $2000\times2000$ y 3.5
+en el de $500\times500$. A partir de 8--12 hilos el tiempo deja de mejorar, y con 24--32 hilos incluso
+empeora. Varias causas contribuyen a este comportamiento:
+\begin{itemize}[nosep]
+  \item \textbf{Kernel limitado por memoria.} Cada paso hace muy poco cómputo por byte transferido:
+    compara tipos de celdas vecinas y copia el estado de un buffer a otro. Un microbenchmark de copia de
+    arreglos en esta misma máquina deja de escalar a partir de 8 hilos, igual que la simulación.
+  \item \textbf{Hilos lógicos (SMT).} Con más de 16 hilos, dos hilos comparten un mismo núcleo físico y sus
+    recursos de caché y de carga/almacenamiento, lo que no aporta beneficio en un código limitado por memoria.
+  \item \textbf{Barreras.} Cada generación tiene 4 barreras. En el mundo de $500\times500$ una generación
+    dura apenas unos milisegundos, así que el costo de sincronizar 16--32 hilos pesa proporcionalmente más.
+    Por eso es el caso que peor escala.
+  \item \textbf{Plataforma.} Las mediciones se hicieron en un portátil con Windows y el plan de energía
+    ``Equilibrado''. La frecuencia del procesador baja cuando se activan muchos núcleos, y el planificador de
+    Windows migra hilos entre los dos complejos de núcleos (CCD) del Ryzen. Incluso un bucle puramente de
+    cómputo, sin acceso a memoria, alcanzó solo $\approx6\times$ con 16 hilos en este equipo. Esto también
+    explica la variabilidad observada; por ejemplo, algunas configuraciones con 12 o 24 hilos son
+    notablemente más lentas que sus vecinas.
+\end{itemize}
+
+\paragraph{Planificación.} Las tres planificaciones de OpenMP rinden de forma muy parecida, sin una
+ganadora consistente. Es lo esperado: en el esquema \emph{decidir--recoger} cada fila tiene un costo casi
+constante, porque se recorren todas las celdas sin importar cuántos animales haya, de modo que el reparto
+\texttt{static} ya está balanceado. Las planificaciones adaptativas (\texttt{dynamic}, \texttt{guided}) solo
+compensarían si la densidad de animales hiciera muy desigual el trabajo por fila. Por otro lado, tienen la
+desventaja de que un hilo puede recibir filas distintas en cada paso, lo que empeora la localidad de caché.
+Pthreads, con bloques estáticos de filas, se comporta como OpenMP \texttt{static} hasta 8 hilos. Con más
+hilos sufre algo más, porque su barrera (\texttt{pthread\_barrier} de winpthreads) es menos eficiente que la
+de libgomp.
+
+\paragraph{Tamaño del problema.} El mundo de $1000\times1000$ es el que mejor escala: su estado de unos
+11\,MB cabe en la caché L3. El de $2000\times2000$ (unos 44\,MB) excede la caché y depende más del ancho de
+banda de la memoria principal, y en el de $500\times500$ domina el costo de las barreras.

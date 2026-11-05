@@ -1,0 +1,24 @@
+% Analisis de la sensibilidad a los parametros (se incluye desde main.tex).
+
+Los resultados muestran que los parámetros determinan si el ecosistema es estable:
+\begin{itemize}[nosep]
+  \item \textbf{\texttt{GEN\_FOOD\_FOXES} bajo (6).} Los zorros mueren de hambre antes de encontrar presas
+    suficientes. Su población cae de forma sostenida hasta casi extinguirse (43 individuos en la generación
+    1500), y los conejos, con cada vez menos depredadores, crecen hasta superar los 10\,000.
+  \item \textbf{\texttt{GEN\_FOOD\_FOXES} alto (16).} Los zorros resisten largos periodos sin comer. El
+    ciclo depredador--presa es el más visible: en las primeras 300 generaciones se observan varias
+    oscilaciones amortiguadas, con los máximos de zorros desfasados respecto de los de conejos. Después,
+    ambas especies se estabilizan, con una población de zorros alta (unos 2\,000) y los conejos en un nivel
+    más bajo que con los parámetros de referencia.
+  \item \textbf{\texttt{GEN\_PROC\_RABBITS} bajo (2).} Los conejos se reproducen muy rápido y sostienen la
+    mayor población de zorros de todos los experimentos (unos 3\,000), con fluctuaciones rápidas y amplias
+    en ambas especies.
+  \item \textbf{\texttt{GEN\_PROC\_RABBITS} alto (9).} Los conejos se reproducen lentamente. Los zorros no
+    encuentran alimento suficiente y quedan al borde de la extinción (43 individuos en la generación 1500),
+    mientras los conejos, liberados de la depredación, aumentan.
+\end{itemize}
+En resumen, el ecosistema es estable solo cuando la tasa de reproducción de las presas y la resistencia
+al hambre de los depredadores están equilibradas. Si no lo están, los zorros se extinguen. Las rocas actúan
+como refugios locales: fragmentan el espacio y dificultan que los zorros alcancen a los conejos, lo que
+ayuda a que las presas sobrevivan a los periodos de mayor depredación. Estos experimentos pueden
+reproducirse de forma interactiva en el visualizador modificando los parámetros durante la ejecución.

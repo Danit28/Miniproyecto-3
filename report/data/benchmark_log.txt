@@ -1,0 +1,31 @@
+== Mundo 500x500, 2000 generaciones ==
+  secuencial: 6.377376 s
+  t=1  static=6.518740  dynamic=6.699778  guided=6.389684  pthreads=6.304250
+  t=2  static=3.986529  dynamic=4.299504  guided=4.034889  pthreads=4.150073
+  t=4  static=2.560674  dynamic=2.614830  guided=2.447547  pthreads=2.418897
+  t=8  static=2.059458  dynamic=1.893186  guided=1.813855  pthreads=2.224378
+  t=12  static=2.190744  dynamic=2.096248  guided=2.101545  pthreads=2.530925
+  t=16  static=2.775099  dynamic=2.138446  guided=2.036667  pthreads=2.720340
+  t=24  static=2.428286  dynamic=2.480477  guided=2.523196  pthreads=3.487345
+  t=32  static=3.007891  dynamic=3.189798  guided=3.578543  pthreads=4.752057
+== Mundo 1000x1000, 500 generaciones ==
+  secuencial: 6.848363 s
+  t=1  static=6.304540  dynamic=6.419894  guided=6.269833  pthreads=6.306537
+  t=2  static=3.720770  dynamic=3.752481  guided=3.646488  pthreads=3.887105
+  t=4  static=2.297920  dynamic=2.094912  guided=2.011868  pthreads=2.097073
+  t=8  static=1.469393  dynamic=1.445806  guided=1.868322  pthreads=1.540089
+  t=12  static=1.592137  dynamic=2.879213  guided=2.207413  pthreads=3.070556
+  t=16  static=1.770246  dynamic=1.728908  guided=1.950528  pthreads=1.830607
+  t=24  static=1.689743  dynamic=1.778714  guided=2.073826  pthreads=3.458414
+  t=32  static=2.147770  dynamic=3.321160  guided=1.874472  pthreads=2.252097
+== Mundo 2000x2000, 200 generaciones ==
+  secuencial: 10.310751 s
+  t=1  static=10.334735  dynamic=9.939254  guided=10.405807  pthreads=10.617980
+  t=2  static=5.417978  dynamic=5.649472  guided=6.590868  pthreads=6.525532
+  t=4  static=3.382165  dynamic=3.507076  guided=3.376176  pthreads=3.961626
+  t=8  static=2.436667  dynamic=2.498288  guided=3.146891  pthreads=2.824537
+  t=12  static=3.096120  dynamic=3.301861  guided=2.874456  pthreads=2.878120
+  t=16  static=2.720941  dynamic=2.878495  guided=2.637926  pthreads=2.844019
+  t=24  static=2.721699  dynamic=2.721222  guided=2.661281  pthreads=3.018894
+  t=32  static=2.780611  dynamic=2.817824  guided=2.783040  pthreads=3.123603
+Resultados en report/data/
