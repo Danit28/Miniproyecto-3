@@ -3,7 +3,7 @@
 
 # IMPORTANTE!!
 **EL INFORME QUE MANDAMOS POR EL BRIGHTSPACE NO ESTA ACTUALIZADO, ADJUNTAMOS EL INFORME ACTUALIZADO A ESTE REPOSITORIO DENTRO DE LA CARPETA report EL INFORME SE 
-LLAMA INFORME_FINAL.tex**
+LLAMA INFORME_FINAL.pdf**
 
 Proyecto de Computación Paralela. Simulación de un ecosistema depredador–presa sobre una matriz de
 `R × C` celdas, con:
